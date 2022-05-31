@@ -11,7 +11,8 @@ class BookController extends AbstractController
 {
     // INDEX
     // --
-    // site.com/books
+    // path: /books
+    // name: book:index
     #[Route('s', name: 'index')]
     public function index(): Response
     {
@@ -23,12 +24,19 @@ class BookController extends AbstractController
 
     // CREATE
     // --
+    // path: /book
+    // name: book:create
+    #[Route('', name: 'create')]
+    public function create(): Response
+    {
+        return $this->render('book/create.html.twig');
+    }
 
 
     // READ
     // --
-
-    // site.com/book/42
+    // path: /book/42
+    // name: book:show
     #[Route('/{id}', name: 'show')]
     public function show(): Response
     {
@@ -40,8 +48,12 @@ class BookController extends AbstractController
 
     // UPDATE
     // --
+    // path: /book/42/edit
+    // name: book:edit
 
 
     // DELETE
     // --
+    // path: /book/42/delete
+    // name: book:delete
 }
