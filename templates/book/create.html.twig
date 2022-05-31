@@ -5,10 +5,24 @@
 
 {% block body %}
 
+    <style>
+    .required::after {
+        content: "*";
+        color: red;
+    }
+    </style>
+
     <h2>{{ title }}</h2>
 
     <div>
         Formulaire de creation du livre
+
+        {# Debug du formulaire #}
+        {# {{ dump(form) }} #}
+
+        {{ form_start(form) }}
+
+        {{ form_end(form) }}
     </div>
 
 {% endblock %}

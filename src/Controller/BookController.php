@@ -41,10 +41,18 @@ class BookController extends AbstractController
         // Association de la requete courante au formulaire
         $form->handleRequest($request);
 
-        dd($form);
-        dd($book);
 
-        return $this->render('book/create.html.twig');
+        // ...
+
+
+        // Preparation de l'objet $form pour la vue twig
+        $form = $form->createView();
+
+        return $this->render('book/create.html.twig', [
+
+            // Transmission du formulaire à la vue
+            'form' => $form
+        ]);
     }
 
 
