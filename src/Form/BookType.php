@@ -4,6 +4,11 @@ namespace App\Form;
 
 use App\Entity\Book;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -68,12 +73,58 @@ class BookType extends AbstractType
                 // Contraintes du champs
             ])
 
-            // Cover
-            ->add('cover')
+            // Cover (FileType)
+            ->add('cover', FileType::class, [
 
-            // Price
-            ->add('price')
-            
+                // Label
+                'label' => "Couverture du livre",
+                'label_attr' => [
+                    'class' => "form-label-test",
+                ],
+
+                // Rendre le champ obligatoire
+                'required' => false,
+
+                // Attributs du champs
+                'attr' => [
+                    'class' => "form-control",
+                    // 'multiple' => true,
+                ],
+
+                // Helper
+                'help' => "Selectionner la description du livre",
+                'help_attr' => [
+                    'class' => "text-muted",
+                ]
+            ])
+
+            // Price (NumberType)
+            ->add('price', NumberType::class, [
+
+                // Label
+                'label' => "Prix du livre",
+                'label_attr' => [
+                    'class' => "form-label-test",
+                ],
+
+                // Rendre le champ obligatoire
+                // 'required' => false,
+
+                // Attributs du champs
+                'attr' => [
+                    'class' => "form-control",
+                    // 'multiple' => true,
+                    'placeholder' => "Prix du livre",
+                    'min' => 0,
+                    'step' => 0.01,
+                ],
+
+                // Helper
+                'help' => "Prix du livre",
+                'help_attr' => [
+                    'class' => "text-muted",
+                ]
+            ])
         ;
     }
 

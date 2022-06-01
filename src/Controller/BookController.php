@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[Route('/book', name: 'book:')]
 class BookController extends AbstractController
@@ -30,7 +31,7 @@ class BookController extends AbstractController
     // path: /book
     // name: book:create
     #[Route('', name: 'create')]
-    public function create(Request $request): Response
+    public function create(Request $request, ValidatorInterface $validator): Response
     {
         // Récupération de l'entité Book
         $book = new Book;
@@ -41,8 +42,11 @@ class BookController extends AbstractController
         // Association de la requete courante au formulaire
         $form->handleRequest($request);
 
-
-        // ...
+        // Test la soumission du formumaire
+        if ( $form->isSubmitted() )
+        {
+            dd( $form );
+        }
 
 
         // Preparation de l'objet $form pour la vue twig
