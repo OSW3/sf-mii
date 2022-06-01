@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Book;
 use App\Form\BookType;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -31,7 +32,7 @@ class BookController extends AbstractController
     // path: /book
     // name: book:create
     #[Route('', name: 'create')]
-    public function create(Request $request, ValidatorInterface $validator): Response
+    public function create(ManagerRegistry $doctrine, Request $request, ValidatorInterface $validator): Response
     {
         // Récupération de l'entité Book
         $book = new Book;
@@ -50,9 +51,18 @@ class BookController extends AbstractController
             $validator->validate($book);
 
             // Test la validité du formulaire
-            if ( $form->isValid())
+            if ( $form->isValid() )
             {
-                dd( $form );
+                // Enregistrement en BDD
+                $em = $doctrine->getManager();
+                $em->persist( $book );
+                $em->flush();
+
+                // Message Flash 
+
+                // Redirection de l'utilisateur
+
+
             }
         }
 

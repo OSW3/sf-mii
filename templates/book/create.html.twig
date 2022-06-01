@@ -21,6 +21,9 @@
 
         {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
 
+        {# CSRF Token #}
+        {{ form_widget(form._token) }}
+
         {# Title #}
         <div class="form-group">
             {{ form_label(form.title) }}

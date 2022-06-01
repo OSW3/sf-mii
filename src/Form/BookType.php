@@ -4,17 +4,20 @@ namespace App\Form;
 
 use App\Entity\Book;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
-use Symfony\Component\Form\Extension\Core\Type\MoneyType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Validator\Constraints\Image;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Validator\Constraints\Positive;
 
 class BookType extends AbstractType
 {
@@ -108,7 +111,21 @@ class BookType extends AbstractType
                 'help' => "Selectionner la description du livre",
                 'help_attr' => [
                     'class' => "text-muted",
-                ]
+                ],
+
+                // Contraintes du champs
+                'constraints' => [
+                    new Image([
+                        'maxSize' => "1M",
+                        'maxSizeMessage' => "Le fichier est trop volumineux {{size}} {{suffix}}. La taille max autorisée est {{ limit }} {{suffix}}",
+
+                        'mimeTypes' => [
+                            "image/jpeg",
+                            "image/png",
+                        ],
+                        'mimeTypesMessage' => "Le type de fichier {{ type }} n'est pas valide. Les fichiers valide sont {{ types }}",
+                    ])
+                ],
             ])
 
             // Price (NumberType)
@@ -128,16 +145,26 @@ class BookType extends AbstractType
                 'attr' => [
                     'class' => "form-control",
                     // 'multiple' => true,
-                    'placeholder' => "Prix du livre",
+                    'placeholder' => "Ajouter le prix du livre",
                     'min' => 0,
                     'step' => 0.01,
                 ],
 
                 // Helper
-                'help' => "Prix du livre",
+                'help' => "Ajouter le prix du livre",
                 'help_attr' => [
                     'class' => "text-muted",
-                ]
+                ],
+
+                // Contraintes du champs
+                'constraints' => [
+                    new NotBlank([
+                        'message' => "Le prix du livre est obligatoire",
+                    ]),
+                    new Positive([
+                        'message' => "Le prix doit être supérieur à zéro."
+                    ])
+                ],
             ])
         ;
     }
