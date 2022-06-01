@@ -101,7 +101,6 @@ class BookController extends AbstractController
             'book' => $book
         ]);
     }
-
     // public function show($id, BookRepository $bookRepository): Response
     // {
     //     $book = $bookRepository->find($id);
@@ -116,6 +115,49 @@ class BookController extends AbstractController
     // --
     // path: /book/42/edit
     // name: book:edit
+    #[Route('/{id}/edit', name: 'edit')]
+    public function update(Book $book, ManagerRegistry $doctrine, Request $request, ValidatorInterface $validator)
+    {
+        // Construction du formulaire
+        $form = $this->createForm(BookType::class, $book);
+
+        // Association de la requete courante au formulaire
+        $form->handleRequest($request);
+
+        // Test la soumission du formumaire
+        if ( $form->isSubmitted() )
+        {
+            // Execute le controle du formulaire
+            // et génération des messages d'erreurs
+            $validator->validate($book);
+
+            // Test la validité du formulaire
+            if ( $form->isValid() )
+            {
+                // TODO: file upload
+
+                // Enregistrement en BDD
+                $em = $doctrine->getManager();
+                $em->persist( $book );
+                $em->flush();
+
+                // Message Flash 
+                $this->addFlash('success', "Le livre ". $book->getTitle() ." à été ajouter.");
+
+                // Redirection de l'utilisateur
+                return $this->redirectToRoute("book:index");
+            }
+        }
+
+
+        // Preparation de l'objet $form pour la vue twig
+        $form = $form->createView();
+
+        return $this->render('book/update.html.twig', [
+            'book' => $book,
+            'form' => $form,
+        ]);
+    }
 
 
     // DELETE

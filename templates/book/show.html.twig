@@ -17,6 +17,15 @@
 </div>
 
 <div>
+    <strong>Description</strong>
+    {% if book.description is null %}
+    <em>No description</em>
+    {% else %}
+    {{ book.description }}
+    {% endif %}
+</div>
+
+<div>
     <strong>Prix</strong>
     {{ book.price }}
 </div>
