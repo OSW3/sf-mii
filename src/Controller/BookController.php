@@ -59,10 +59,10 @@ class BookController extends AbstractController
                 $em->flush();
 
                 // Message Flash 
+                $this->addFlash('success', "Le livre ". $book->getTitle() ." à été ajouter.");
 
                 // Redirection de l'utilisateur
-
-
+                return $this->redirectToRoute("app_homepage");
             }
         }
 
