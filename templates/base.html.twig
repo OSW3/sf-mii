@@ -15,6 +15,14 @@
     </head>
     <body>
 
+        <header class="main-header">
+            <nav>
+                <a href="{{ path('app_homepage') }}">Accueil</a>
+                <a href="{{ path('book:index') }}">Nos Livres</a>
+            </nav>
+        </header>
+
+
         {# Affichage du message flash #}
         {% for key, messages in app.flashes() %}
             {% for message in messages %}
@@ -27,6 +35,7 @@
                 {{ message }}
             </div>
         {% endfor %} #}
+
 
         {% block body %}Default Body Content{% endblock %}
     </body>

@@ -19,7 +19,7 @@ class BookController extends AbstractController
     // --
     // path: /books
     // name: book:index
-    #[Route('s', name: 'index')]
+    #[Route('s', name: 'index', methods: ["HEAD", "GET"])]
     public function index(BookRepository $bookRepository): Response
     {
         // Récupération des données
@@ -41,7 +41,7 @@ class BookController extends AbstractController
     // --
     // path: /book
     // name: book:create
-    #[Route('', name: 'create')]
+    #[Route('', name: 'create', methods: ["HEAD", "GET", "POST"])]
     public function create(ManagerRegistry $doctrine, Request $request, ValidatorInterface $validator): Response
     {
         // Récupération de l'entité Book
@@ -71,10 +71,12 @@ class BookController extends AbstractController
                 $em->flush();
 
                 // Message Flash 
-                $this->addFlash('success', "Le livre ". $book->getTitle() ." à été ajouter.");
+                $this->addFlash('success', "Le livre ". $book->getTitle() ." à été ajouté.");
 
                 // Redirection de l'utilisateur
-                return $this->redirectToRoute("book:index");
+                return $this->redirectToRoute("book:show", [
+                    'id' => $book->getId()
+                ]);
             }
         }
 
@@ -94,7 +96,7 @@ class BookController extends AbstractController
     // --
     // path: /book/42
     // name: book:show
-    #[Route('/{id}', name: 'show')]
+    #[Route('/{id}', name: 'show', methods: ["HEAD", "GET"])]
     public function show(Book $book): Response
     {
         return $this->render('book/show.html.twig', [
@@ -115,7 +117,7 @@ class BookController extends AbstractController
     // --
     // path: /book/42/edit
     // name: book:edit
-    #[Route('/{id}/edit', name: 'edit')]
+    #[Route('/{id}/edit', name: 'edit', methods: ["HEAD", "GET", "POST"])]
     public function update(Book $book, ManagerRegistry $doctrine, Request $request, ValidatorInterface $validator)
     {
         // Construction du formulaire
@@ -142,10 +144,12 @@ class BookController extends AbstractController
                 $em->flush();
 
                 // Message Flash 
-                $this->addFlash('success', "Le livre ". $book->getTitle() ." à été ajouter.");
+                $this->addFlash('success', "Le livre ". $book->getTitle() ." à été modifié.");
 
                 // Redirection de l'utilisateur
-                return $this->redirectToRoute("book:index");
+                return $this->redirectToRoute("book:show", [
+                    'id' => $book->getId()
+                ]);
             }
         }
 
@@ -164,4 +168,12 @@ class BookController extends AbstractController
     // --
     // path: /book/42/delete
     // name: book:delete
+    #[Route('/{id}/delete', name: 'delete', methods: ["HEAD", "GET", "DELETE"])]
+    public function delete(Book $book)
+    {
+        
+        return $this->render('book/delete.html.twig', [
+            'book' => $book
+        ]);
+    }
 }

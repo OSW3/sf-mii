@@ -26,7 +26,7 @@
             </td>
             <td>
                 <a href="{{ url('book:show', {id: book.id}) }}">show</a>
-                <a href="#">edit</a>
+                <a href="{{ url('book:edit', {id: book.id}) }}">edit</a>
             </td>
         </tr>
         {% endfor %}
