@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Book;
 use App\Form\BookType;
+use App\Repository\BookRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,10 +20,19 @@ class BookController extends AbstractController
     // path: /books
     // name: book:index
     #[Route('s', name: 'index')]
-    public function index(): Response
+    public function index(BookRepository $bookRepository): Response
     {
+        // Récupération des données
+        $books = $bookRepository->findAll();
+
+        // $criteria = [
+        //     'title' => "super titre"
+        // ];
+        // $books = $bookRepository->findBy($criteria);
+
+        // Transmission des données à la vue
         return $this->render('book/index.html.twig', [
-            'controller_name' => 'BookController',
+            'books' => $books
         ]);
     }
 
@@ -53,6 +63,8 @@ class BookController extends AbstractController
             // Test la validité du formulaire
             if ( $form->isValid() )
             {
+                // TODO: file upload
+
                 // Enregistrement en BDD
                 $em = $doctrine->getManager();
                 $em->persist( $book );
@@ -60,8 +72,6 @@ class BookController extends AbstractController
 
                 // Message Flash 
                 $this->addFlash('success', "Le livre ". $book->getTitle() ." à été ajouter.");
-                $this->addFlash('warning', "Message warning.");
-                $this->addFlash('danger', "Message danger.");
 
                 // Redirection de l'utilisateur
                 return $this->redirectToRoute("book:index");
