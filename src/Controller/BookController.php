@@ -169,9 +169,19 @@ class BookController extends AbstractController
     // path: /book/42/delete
     // name: book:delete
     #[Route('/{id}/delete', name: 'delete', methods: ["HEAD", "GET", "DELETE"])]
-    public function delete(Book $book)
+    public function delete(Book $book, ManagerRegistry $doctrine, Request $request)
     {
-        
+        if ($request->getMethod() === 'DELETE')
+        {
+            // Requete de suppression
+            $em = $doctrine->getManager();
+            $em->remove($book);
+            $em->flush();
+
+            // Redirection de l'utilisateur
+            return $this->redirectToRoute("book:index");
+        }
+
         return $this->render('book/delete.html.twig', [
             'book' => $book
         ]);
