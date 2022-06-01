@@ -1,0 +1,23 @@
+{% extends "base.html.twig" %}
+{% set title = "Livre: " ~ book.title %}
+
+{% block title %}{{ title }} - {{ parent() }}{% endblock %}
+
+{% block body %}
+<h2>{{ title }}</h2>
+
+<div>
+    <strong>ID</strong>
+    {{ book.id }}
+</div>
+
+<div>
+    <strong>Titre</strong>
+    {{ book.title }}
+</div>
+
+<div>
+    <strong>Prix</strong>
+    {{ book.price }}
+</div>
+{% endblock %}

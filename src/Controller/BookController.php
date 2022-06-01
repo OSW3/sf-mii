@@ -95,12 +95,21 @@ class BookController extends AbstractController
     // path: /book/42
     // name: book:show
     #[Route('/{id}', name: 'show')]
-    public function show(): Response
+    public function show(Book $book): Response
     {
         return $this->render('book/show.html.twig', [
-            'controller_name' => 'BookController',
+            'book' => $book
         ]);
     }
+
+    // public function show($id, BookRepository $bookRepository): Response
+    // {
+    //     $book = $bookRepository->find($id);
+
+    //     return $this->render('book/show.html.twig', [
+    //         'book' => $book
+    //     ]);
+    // }
 
 
     // UPDATE
