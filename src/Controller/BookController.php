@@ -45,7 +45,15 @@ class BookController extends AbstractController
         // Test la soumission du formumaire
         if ( $form->isSubmitted() )
         {
-            dd( $form );
+            // Execute le controle du formulaire
+            // et génération des messages d'erreurs
+            $validator->validate($book);
+
+            // Test la validité du formulaire
+            if ( $form->isValid())
+            {
+                dd( $form );
+            }
         }
 
 

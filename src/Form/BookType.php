@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class BookType extends AbstractType
 {
@@ -41,9 +42,14 @@ class BookType extends AbstractType
                 'help' => "Ajouter le titre du livre",
                 'help_attr' => [
                     'class' => "text-muted",
-                ]
+                ],
 
                 // Contraintes du champs
+                'constraints' => [
+                    new NotBlank([
+                        'message' => "Le titre du livre est obligatoire",
+                    ]),
+                ],
             ])
 
             // Description
