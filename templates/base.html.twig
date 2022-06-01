@@ -15,11 +15,18 @@
     </head>
     <body>
 
-        {% for message in app.flashes('success') %}
+        {# Affichage du message flash #}
+        {% for key, messages in app.flashes() %}
+            {% for message in messages %}
+                <div class="alert alert-{{ key }}">{{ message }}</div>
+            {% endfor %}
+        {% endfor %}
+
+        {# {% for message in app.flashes('success') %}
             <div class="alert alert-success">
                 {{ message }}
             </div>
-        {% endfor %}
+        {% endfor %} #}
 
         {% block body %}Default Body Content{% endblock %}
     </body>

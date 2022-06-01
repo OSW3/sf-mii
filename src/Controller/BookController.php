@@ -60,9 +60,11 @@ class BookController extends AbstractController
 
                 // Message Flash 
                 $this->addFlash('success', "Le livre ". $book->getTitle() ." à été ajouter.");
+                $this->addFlash('warning', "Message warning.");
+                $this->addFlash('danger', "Message danger.");
 
                 // Redirection de l'utilisateur
-                return $this->redirectToRoute("app_homepage");
+                return $this->redirectToRoute("book:index");
             }
         }
 
