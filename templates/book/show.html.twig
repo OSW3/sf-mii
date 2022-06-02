@@ -1,4 +1,12 @@
-{% extends "base.html.twig" %}
+{% if book.id is odd %}
+{% set base = "base-alt.html.twig" %}
+{% else %}
+{% set base = "base.html.twig" %}
+{% endif %}
+
+{% extends base %}
+
+
 {% set title = "Livre: " ~ book.title %}
 
 {% block title %}{{ title }} - {{ parent() }}{% endblock %}
