@@ -29,4 +29,8 @@
     <strong>Prix</strong>
     {{ book.price }}
 </div>
+
+<hr>
+<a href="{{ path('book:edit', {id: book.id}) }}">Edit (path)</a>
+<a href="{{ path('book:delete', {id: book.id}) }}">Delete</a>
 {% endblock %}
