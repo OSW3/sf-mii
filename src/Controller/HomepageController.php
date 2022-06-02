@@ -12,7 +12,12 @@ class HomepageController extends AbstractController
     public function index(): Response
     {
         return $this->render('homepage/index.html.twig', [
-            'controller_name' => 'There',
+            'now' => new \DateTime(),
+            'html' => "Hello <strong>There</strong> !",
+            'array' => [
+                'firstname' => "Bruce",
+                'lastname' => "WAYNE",
+            ],
         ]);
     }
 }
